@@ -1,8 +1,9 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {} from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { AuthContext } from "../../context/AuthContext";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -11,7 +12,8 @@ const Signup = () => {
     password: "",
     confirmpassword: "",
   });
-  //  const {setToken} = useContext(CartContext)
+   const { setIsLogin } = useContext(AuthContext);
+
 
   const handleChange = (e) => {
     const { placeholder, value } = e.target;
@@ -34,17 +36,16 @@ const Signup = () => {
         }
       );
 
-      if (res.ok) toast("User created successfully");
-      else toast(res.data.error);
-    } catch (e) {
-      toast(e.data.error);
+        toast("User created successfully");
+        setIsLogin(true)
+    } catch (e) {;
+        toast(e.response.data.error.message)
     }
     document.querySelector("form").reset();
   };
 
   return (
     <div>
-      <ToastContainer />
       <h1 className="display-1 border-bottom p-2 border-3 border-dark">
         Sign Up
       </h1>
@@ -90,6 +91,9 @@ const Signup = () => {
           className=" btn btn-secondary"
           value="CREATE ACCOUNT"
         />
+        <button className=" m-3 text-primary border-0" onClick={()=>setIsLogin(true)}>
+          Already having account?
+        </button>
       </form>
     </div>
   );

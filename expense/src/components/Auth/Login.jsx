@@ -1,6 +1,8 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { AuthContext } from '../../context/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate()
@@ -8,58 +10,42 @@ const Login = () => {
      email: "",
      password: "",
    });
-  //  const {setToken} = useContext(CartContext)
 
+   const { setIsLogin } = useContext(AuthContext);
+  
+  
    const handleChange = (e) => {
-     const { placeholder, value } = e.target;
-     setUserData({ ...userData, [placeholder]: value });
-   };
-   const handleSubmit =  (e) => {
+       const { placeholder, value } = e.target;
+       setUserData({ ...userData, [placeholder]: value });
+  };
+     const handleSubmit = async (e) => {
        e.preventDefault();
+       localStorage.setItem("userEmail", userData.email);
 
-       localStorage.setItem('userEmail',userData.email)
+        try {
+          const res = await axios.post(
+            "https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=AIzaSyDaeruYWdQeB2Q_dbNn0K8expO1LZKZEN0",
+            {
+              email: userData.email,
+              password: userData.password,
+              returnSecureToken: true,
+            }
+          );
 
- fetch(
-   "https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=AIzaSyDaeruYWdQeB2Q_dbNn0K8expO1LZKZEN0",
-   {
-     method: "POST",
-     body: JSON.stringify({
-       email: userData.email,
-       password: userData.password,
-       returnSecureToken: true,
-     }),
-     headers: {
-       "Content-Type": "application/json",
-     },
-   }
- )
-   .then((res) => {
-     if (res.ok) {
-       return res.json();
-     } else {
-       res.json().then((data) => {
-         var errorMessage = "Authentication failed";
-           if (data.error.message) alert(data.error.message)
-           else alert(errorMessage)
-         throw new Error(errorMessage);
-       });
-     }
-   })
-   .then((data) => {
-       localStorage.setItem("token", data.idToken);
-       navigate('/store')
-   })
-   .catch((err) => console.log(err.message));
-
-
-     document.querySelector("form").reset();
-   };
+            if(res.status==200) console.log(res.status)
+          toast("User Login successfully");
+        navigate("/");
+          
+        } catch (e) {
+          toast(e.response.data.error.message);
+        }
+        document.querySelector("form").reset();
+      //  console.log(userData);
+     };
 
   return (
     <div>
-      <h1 className="display-1 border-bottom border-3 border-dark">
-        Login
-      </h1>
+      <h1 className="display-1 border-bottom border-3 border-dark">Login</h1>
       <form
         onSubmit={handleSubmit}
         className="form m-auto my-5 w-25 p-3 shadow-lg rounded-3"
@@ -86,7 +72,11 @@ const Login = () => {
           <label>Password</label>
         </div>
 
-        <input type="submit" className=" btn btn-secondary" value='Login' />
+        <input type="submit" className=" btn btn-secondary" value="Login" />
+
+        <button className=" m-3 text-primary border-0" onClick={() => setIsLogin(false)}>
+          New User?
+        </button>
       </form>
     </div>
   );
