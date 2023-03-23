@@ -24,7 +24,7 @@ const Login = () => {
 
         try {
           const res = await axios.post(
-            "https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=AIzaSyDaeruYWdQeB2Q_dbNn0K8expO1LZKZEN0",
+            "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDaeruYWdQeB2Q_dbNn0K8expO1LZKZEN0",
             {
               email: userData.email,
               password: userData.password,
@@ -32,7 +32,7 @@ const Login = () => {
             }
           );
 
-            if(res.status==200) console.log(res.status)
+          localStorage.setItem("idToken" , res.data.idToken);
           toast("User Login successfully");
         navigate("/");
           
