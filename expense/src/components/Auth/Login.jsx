@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import VerifyEmail from './VerifyEmail';
 import { AuthContext } from '../../context/AuthContext';
 
 const Login = () => {
@@ -34,7 +35,7 @@ const Login = () => {
 
           localStorage.setItem("idToken" , res.data.idToken);
           toast("User Login successfully");
-        navigate("/");
+          navigate("/VarifyEmail");
           
         } catch (e) {
           toast(e.response.data.error.message);

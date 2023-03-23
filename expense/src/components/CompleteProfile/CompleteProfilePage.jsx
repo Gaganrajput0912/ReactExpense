@@ -16,7 +16,7 @@ getPreviousValues();
     let idToken = localStorage.getItem("idToken");
 
     const res = await axios.post(
-      "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=key=AIzaSyDaeruYWdQeB2Q_dbNn0K8expO1LZKZEN0"
+      "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDaeruYWdQeB2Q_dbNn0K8expO1LZKZEN0"
       , { idToken: idToken });
     setDefaultData({
       fullName: res.data.users[0].displayName,
