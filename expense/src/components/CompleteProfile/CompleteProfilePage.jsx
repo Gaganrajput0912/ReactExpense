@@ -1,40 +1,55 @@
-import axios from 'axios';
-import React, { useState } from 'react'
-import { toast } from 'react-toast';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toast";
 
 const CompleteProfilePage = () => {
+  const [defaultData, setDefaultData] = useState({ fullName: "", url: "" });
+  const [userData, setUserData] = useState({
+    fullName: "",
+    url: "",
+  });
+  useEffect(() => {
+getPreviousValues();
+  },[])
 
-     const [userData, setUserData] = useState({
-       fullName: "",
-       url: "",
-     });
+  async function getPreviousValues() {
+    let idToken = localStorage.getItem("idToken");
 
-    const handleChange = (e) => {
-      const { placeholder, value } = e.target;
-      setUserData({ ...userData, [placeholder]: value });
-    };
+    const res = await axios.post(
+      "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=key=AIzaSyDaeruYWdQeB2Q_dbNn0K8expO1LZKZEN0"
+      , { idToken: idToken });
+    setDefaultData({
+      fullName: res.data.users[0].displayName,
+      url: res.data.users[0].photoUrl,
+    });
+  }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        console.log(userData)
-        let idToken = localStorage.getItem("idToken");
-        try {
-               const res = await axios.post(
-          "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDaeruYWdQeB2Q_dbNn0K8expO1LZKZEN0",
-          {
-            idToken: idToken,
-            displayName: userData.fullName,
-            photoUrl : userData.url
-          }
-        );
-        toast('Profile Updated')
-    document.querySelector("form").reset();
-        } catch (e) {
-              toast(e.response.data.error.message);
+  const handleChange = (e) => {
+    const { placeholder, value } = e.target;
+    setUserData({ ...userData, [placeholder]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(userData);
+    let idToken = localStorage.getItem("idToken");
+    try {
+      const res = await axios.post(
+        "https://identitytoolkit.googleapis.com/v1/accounts:update?key=key=AIzaSyDaeruYWdQeB2Q_dbNn0K8expO1LZKZEN0",
+        {
+          idToken: idToken,
+          displayName: userData.fullName,
+          photoUrl: userData.url,
         }
+      );
 
-
+      toast("Profile Updated");
+      document.querySelector("form").reset();
+    } catch (e) {
+      console.log(e);
+      toast(e.response.data.error.message);
     }
+  };
 
   return (
     <div>
@@ -48,6 +63,7 @@ const CompleteProfilePage = () => {
             className="form-control"
             onChange={handleChange}
             placeholder="fullName"
+            defaultValue={defaultData.fullName}
             required
           />
           <label>Full Name</label>
@@ -59,6 +75,7 @@ const CompleteProfilePage = () => {
             className="form-control"
             onChange={handleChange}
             placeholder="url"
+            defaultValue={defaultData.url}
             required
           />
           <label>Profile Photo URL</label>
@@ -68,6 +85,6 @@ const CompleteProfilePage = () => {
       </form>
     </div>
   );
-}
+};
 
-export default CompleteProfilePage
+export default CompleteProfilePage;
