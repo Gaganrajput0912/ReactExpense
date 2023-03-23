@@ -17,6 +17,11 @@ const Header = () => {
             </Link>
           </button>
           <button className=" btn">
+            <Link to="/expenses" id="link">
+              EXPENSES
+            </Link>
+          </button>
+          <button className=" btn">
             <Link to="/store" id="link">
               STORE
             </Link>
