@@ -1,8 +1,11 @@
-// import React, { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 // import CartContext from "../../store/CartContext";
 const Header = () => {
+  const { IdToken ,setIdToken } = useContext(AuthContext)
+  console.log(IdToken)
   // const {  cartItems, setShow } = useContext(CartContext);
   return (
     <>
@@ -28,10 +31,18 @@ const Header = () => {
               Contact Us
             </Link>
           </button>
-            <button className=" btn">
-              <Link to="/auth" id="link">
+          <button className=" btn">
+            {!IdToken ? <Link to="/auth" id="link">
                 LOGIN
-              </Link>
+                </Link> : 
+              <div onClick={() => {
+                localStorage.removeItem("idToken");
+                localStorage.removeItem("userEmail");
+                setIdToken(null)
+              }}>
+                LOGOUT
+              </div>
+              }
           </button>
         </div>
         

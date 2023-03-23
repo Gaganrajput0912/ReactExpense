@@ -12,7 +12,7 @@ const Login = () => {
      password: "",
    });
 
-   const { setIsLogin } = useContext(AuthContext);
+   const {  setIdToken, setIsLogin } = useContext(AuthContext);
   
   
    const handleChange = (e) => {
@@ -33,9 +33,10 @@ const Login = () => {
             }
           );
 
-          localStorage.setItem("idToken" , res.data.idToken);
+          localStorage.setItem("idToken", res.data.idToken);
+          setIdToken(res.data.idToken)
           toast("User Login successfully");
-          navigate("/VarifyEmail");
+          navigate("/VerifyEmail");
           
         } catch (e) {
           toast(e.response.data.error.message);

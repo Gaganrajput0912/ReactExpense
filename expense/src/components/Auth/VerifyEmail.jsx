@@ -22,7 +22,7 @@ const VerifyEmail = () => {
     return (
       <div className='m-5'>
             <p className='display-3'>{text}</p>
-      {t&&  <button onClick={()=>varifyEmailID()} className=" btn btn-lg btn-secondary">Varify Email</button>
+      {t&&  <button onClick={()=>varifyEmailID()} className=" btn btn-lg btn-secondary">Verify Email</button>
      } </div>
     );
 }
