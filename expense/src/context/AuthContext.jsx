@@ -5,12 +5,24 @@ export const AuthContext = createContext()
 const AuthProvider = ({ children }) => {
   const [isLogin, setIsLogin] = useState(false);
   const [IdToken, setIdToken] = useState(null)
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     setIdToken(localStorage.getItem("idToken"));  
   },[])
   return (
-    <AuthContext.Provider value={{IdToken , setIdToken,isLogin , setIsLogin}}>{children}</AuthContext.Provider>
+    <AuthContext.Provider
+      value={{
+        show,
+        setShow,
+        IdToken,
+        setIdToken,
+        isLogin,
+        setIsLogin,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
   )
 }
 

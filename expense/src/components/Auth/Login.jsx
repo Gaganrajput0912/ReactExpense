@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import VerifyEmail from './VerifyEmail';
+// import VerifyEmail from './VerifyEmail';
 import { AuthContext } from '../../context/AuthContext';
 
 const Login = () => {
@@ -12,7 +12,7 @@ const Login = () => {
      password: "",
    });
 
-   const {  setIdToken, setIsLogin } = useContext(AuthContext);
+   const {  setIdToken, setIsLogin ,setShow } = useContext(AuthContext);
   
   
    const handleChange = (e) => {
@@ -79,6 +79,7 @@ const Login = () => {
         <button className=" m-3 text-primary border-0" onClick={() => setIsLogin(false)}>
           New User?
         </button>
+        <button className=" m-3 text-primary border-0" onClick={()=>setShow(true)}>Forgot Password?</button>
       </form>
     </div>
   );

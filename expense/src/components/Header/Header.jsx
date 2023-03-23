@@ -28,7 +28,7 @@ const Header = () => {
           </button>
           <button className=" btn text-white">
             <Link to="/ContactUs" id="link">
-              Contact Us
+              CONTACT US
             </Link>
           </button>
           <button className=" btn">

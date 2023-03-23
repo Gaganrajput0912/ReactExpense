@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 const VerifyEmail = () => {
     const [t,setT] = useState(true)
     const [text, setText] = useState(
-      "Your Email is not varified. Please varified it."
+      "Your Email is not verified. Please verified it."
     );
     const varifyEmailID = async () => {
 
