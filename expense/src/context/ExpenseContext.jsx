@@ -15,10 +15,24 @@ const ExpenseProvider = ({ children }) => {
         );
         setExpenses([])
           for (let key in res.data) {
-            setExpenses((prev)=>[...prev , res.data[key]])
+            setExpenses((prev) => [...prev, { id : key,...res.data[key] }])
         }
     }
-
+    async function deleteExpense(id) {
+      await axios.delete(
+        `https://expense-7bb75-default-rtdb.firebaseio.com/expenses/${id}.json`
+      );
+      getExpenses()
+    }
+  
+      async function editExpense(id,item) {
+        const res = await axios.put(
+          `https://expense-7bb75-default-rtdb.firebaseio.com/expenses/${id}.json`,
+          item
+        );
+        console.log(res)
+        getExpenses();
+    }
      async function postExpense(item) {
       const res =  await axios.post(
          "https://expense-7bb75-default-rtdb.firebaseio.com/expenses.json"
@@ -28,7 +42,9 @@ const ExpenseProvider = ({ children }) => {
      }
 
   return (
-    <expenseContext.Provider value={{ expenses, postExpense }}>
+    <expenseContext.Provider
+      value={{ deleteExpense, expenses, postExpense, editExpense }}
+    >
       {children}
     </expenseContext.Provider>
   );

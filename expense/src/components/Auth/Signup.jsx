@@ -24,7 +24,7 @@ const Signup = () => {
     localStorage.setItem("userEmail", userData.email);
 
     if (userData.confirmpassword != userData.password)
-      return toast("Please check confirm password..");
+      return alert("Please check confirm password..");
 
     try {
       const res = await axios.post(
@@ -36,7 +36,7 @@ const Signup = () => {
         }
       );
 
-        toast("User created successfully");
+        alert("User created successfully");
         setIsLogin(true)
     } catch (e) {;
         toast(e.response.data.error.message)

@@ -35,7 +35,7 @@ const Login = () => {
 
           localStorage.setItem("idToken", res.data.idToken);
           setIdToken(res.data.idToken)
-          toast("User Login successfully");
+          alert("User Login successfully");
           navigate("/VerifyEmail");
           
         } catch (e) {

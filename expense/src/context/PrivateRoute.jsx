@@ -8,7 +8,7 @@ const PrivateRoute = ({children}) => {
     if (IdToken)
         return children
     else {
-        toast('Please Login first.')
+        alert('Please Login first.')
         return <Navigate to='/auth' />
 
     }

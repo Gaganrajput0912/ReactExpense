@@ -1,43 +1,44 @@
-import React, { useContext, useState } from 'react'
-import { Button, Modal } from 'react-bootstrap'
-import { expenseContext } from '../../context/ExpenseContext'
-const ExpenseForm = ({ setExpenseArr }) => {
-    const {postExpense} = useContext(expenseContext)
-    const [show, setShow] = useState(false)
-    const [data,setData] = useState({Amount:0 , Description : '' , Category : 'Food'})
-const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+import React, { useContext, useState } from "react";
+import { Button, Modal } from "react-bootstrap";
+import { expenseContext } from "../../context/ExpenseContext";
 
-    const handleChange = (e) => {
-        const { value, name } = e.target
-        setData({...data , [name] : value} )
+const EditForm = ({ item }) => {
+  const [show, setShow] = useState(false);
+    const [data, setData] = useState(item);
+    const {editExpense} = useContext(expenseContext)
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-    }
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+    setData({ ...data, [name]: value });
+  };
 
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        postExpense(data)
+  const handleSubmit = (e) => {
+    e.preventDefault();
+console.log(data)
+      editExpense(data.id, data)
       handleClose()
-document.getElementById("expenseForm").reset()
-}
+    document.getElementById("EditForm").reset();
+  };
   return (
     <div>
-      <button className=" m-5 btn btn-success" onClick={handleShow}>
-        ADD NEW EXPENSE
+      <button className=" btn btn-secondary" onClick={handleShow}>
+        EDIT
       </button>
       <Modal show={show} onHide={handleClose} className="">
         <Modal.Header closeButton>
-          <Modal.Title>ADD EXPENSE </Modal.Title>
+          <Modal.Title>Edit EXPENSE </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form id='expenseForm' className=" text-center">
+          <form id="EditForm" className=" text-center">
             <input
               className=" form-control"
               type="number"
               placeholder="Amount"
               name="Amount"
               onChange={handleChange}
+              defaultValue={item.Amount}
               required
             />
             <textarea
@@ -47,6 +48,7 @@ document.getElementById("expenseForm").reset()
               name="Description"
               onChange={handleChange}
               style={{ height: 250 }}
+              defaultValue={item.Description}
               required
             />
 
@@ -54,6 +56,7 @@ document.getElementById("expenseForm").reset()
               className="form-control mt-2"
               onChange={handleChange}
               name="Category"
+              defaultValue={item.Category}
               required
             >
               <option>Food</option>
@@ -63,7 +66,7 @@ document.getElementById("expenseForm").reset()
             </select>
 
             <button onClick={handleSubmit} className="btn mt-3 btn-primary">
-              ADD EXPENSE
+              EDIT EXPENSE
             </button>
           </form>
         </Modal.Body>
@@ -75,6 +78,6 @@ document.getElementById("expenseForm").reset()
       </Modal>
     </div>
   );
-}
+};
 
-export default ExpenseForm
+export default EditForm;

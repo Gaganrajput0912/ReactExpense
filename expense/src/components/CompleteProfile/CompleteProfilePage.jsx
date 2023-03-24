@@ -43,7 +43,7 @@ getPreviousValues();
         }
       );
 
-      toast("Profile Updated");
+      alert("Profile Updated");
       document.querySelector("form").reset();
     } catch (e) {
       console.log(e);

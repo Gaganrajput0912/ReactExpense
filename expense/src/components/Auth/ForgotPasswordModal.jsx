@@ -16,7 +16,7 @@ const ForgotPasswordModal = () => {
      "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDaeruYWdQeB2Q_dbNn0K8expO1LZKZEN0",
      { requestType: "PASSWORD_RESET", email: inputRef.current.value }
     );
-      toast('Link send successfully')  
+      alert('Link send successfully')  
     handleClose()  
     }
     catch (e) {
