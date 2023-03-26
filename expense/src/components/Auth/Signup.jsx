@@ -91,7 +91,7 @@ const Signup = () => {
           className=" btn btn-secondary"
           value="CREATE ACCOUNT"
         />
-         <button
+         <button id='btn'
           className=" m-3 text-primary border-0"
           onClick={() => dispatch(authActions.loginPage())}
         >

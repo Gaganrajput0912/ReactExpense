@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 
 import { Link } from "react-router-dom";
+import { themeActions } from "../../store/ThemeSlicer";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/AuthSlicer";
 // import CartContext from "../../store/CartContext";
@@ -50,6 +51,10 @@ const Header = () => {
               </div>
               }
           </button>
+          <div style={{height : '25px'}} className="form-check mt-2 form-switch">
+  <input onChange={()=>dispatch(themeActions.changeTheme())} className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
+       <label className="text-white">Dark mode</label>
+          </div>
         </div>
         
       </header>

@@ -80,14 +80,14 @@ const Login = () => {
           </div>
 
           <input type="submit" className=" btn btn-secondary" value="Login" />
-          <button
+          <button id='btn'
             className=" m-3 text-primary border-0"
             onClick={() => dispatch(authActions.signupPage())}
           >
             New User?
           </button>
         </form>
-        <button  className="mb-3 text-primary border-0"
+        <button id='btn'  className="mb-3 text-primary border-0"
           onClick={() => dispatch(authActions.showForgotPasswordModal())}>
          Forgot Password?
         </button>
