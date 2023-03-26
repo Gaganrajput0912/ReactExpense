@@ -6,23 +6,24 @@ import PrivateRoute from '../../context/PrivateRoute';
 import Expenses from '../Expenses/Expenses';
 import { useContext } from 'react';
 import VerifyEmail from '../Auth/VerifyEmail';
-import { AuthContext } from '../../context/AuthContext';
+import { useSelector } from 'react-redux';
 import Login from '../Auth/Login';
 import Signup from '../Auth/Signup';
 import Home from './Home'
 
 const AllRoutes = () => {
-  const { isLogin } = useContext(AuthContext)
+  const isLoginPage = useSelector((state) => state.auth.isLoginPage);
+  const IdToken = useSelector(state=>state.auth.IdToken)
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/auth" element={isLogin ? <Login /> : <Signup />} />
+      <Route path="/auth" element={isLoginPage ? <Login /> : <Signup />} />
       <Route path="/completeProfile" element={<CompleteProfilePage />} />
       <Route path="/VerifyEmail" element={<VerifyEmail />} />
       <Route
         path="/expenses"
         element={
-          <PrivateRoute>
+          <PrivateRoute IdToken={IdToken}>
             <Expenses />
           </PrivateRoute>
         }

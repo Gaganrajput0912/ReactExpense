@@ -1,10 +1,13 @@
 import React, { useContext, useState } from "react";
 
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../../store/AuthSlicer";
 // import CartContext from "../../store/CartContext";
 const Header = () => {
-  const { IdToken ,setIdToken } = useContext(AuthContext)
+  
+  const IdToken = useSelector((state) => state.auth.IdToken);
+  const dispatch = useDispatch()
   console.log(IdToken)
   // const {  cartItems, setShow } = useContext(CartContext);
   return (
@@ -41,9 +44,7 @@ const Header = () => {
                 LOGIN
                 </Link> : 
               <div onClick={() => {
-                localStorage.removeItem("idToken");
-                localStorage.removeItem("userEmail");
-                setIdToken(null)
+                dispatch(authActions.logout())
               }}>
                 LOGOUT
               </div>

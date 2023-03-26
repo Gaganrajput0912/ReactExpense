@@ -1,18 +1,21 @@
 import axios from 'axios';
-import React, { useContext, useState } from 'react'
+import React, {  useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 // import VerifyEmail from './VerifyEmail';
-import { AuthContext } from '../../context/AuthContext';
+import { authActions } from '../../store/AuthSlicer';
 
 const Login = () => {
+  const auth = useSelector(state => state.auth)
+  const dispatch = useDispatch()
   const navigate = useNavigate()
    const [userData, setUserData] = useState({
      email: "",
      password: "",
    });
 
-   const {  setIdToken, setIsLogin ,setShow } = useContext(AuthContext);
+   
   
   
    const handleChange = (e) => {
@@ -21,7 +24,7 @@ const Login = () => {
   };
      const handleSubmit = async (e) => {
        e.preventDefault();
-       localStorage.setItem("userEmail", userData.email);
+      //  localStorage.setItem("userEmail", userData.email);
 
         try {
           const res = await axios.post(
@@ -33,9 +36,10 @@ const Login = () => {
             }
           );
 
-          localStorage.setItem("idToken", res.data.idToken);
-          setIdToken(res.data.idToken)
+          // localStorage.setItem("idToken", res.data.idToken);
+          // setIdToken(res.data.idToken)
           alert("User Login successfully");
+          dispatch(authActions.login(res.data.idToken));
           navigate("/VerifyEmail");
           
         } catch (e) {
@@ -48,39 +52,46 @@ const Login = () => {
   return (
     <div>
       <h1 className="display-1 border-bottom border-3 border-dark">Login</h1>
-      <form
-        onSubmit={handleSubmit}
-        className="form m-auto my-5 w-25 p-3 shadow-lg rounded-3"
-      >
-        <div className=" form-floating mb-3">
-          <input
-            type="email"
-            className="form-control"
-            onChange={handleChange}
-            placeholder="email"
-            required
-          />
-          <label>Email address</label>
-        </div>
+      <div className="m-auto my-5 w-25 p-3 shadow-lg rounded-3">
+        <form
+          onSubmit={handleSubmit}
+          className="form"
+        >
+          <div className=" form-floating mb-3">
+            <input
+              type="email"
+              className="form-control"
+              onChange={handleChange}
+              placeholder="email"
+              required
+            />
+            <label>Email address</label>
+          </div>
 
-        <div className=" form-floating mb-3">
-          <input
-            type="password"
-            className="form-control"
-            onChange={handleChange}
-            placeholder="password"
-            required
-          />
-          <label>Password</label>
-        </div>
+          <div className=" form-floating mb-3">
+            <input
+              type="password"
+              className="form-control"
+              onChange={handleChange}
+              placeholder="password"
+              required
+            />
+            <label>Password</label>
+          </div>
 
-        <input type="submit" className=" btn btn-secondary" value="Login" />
-
-        <button className=" m-3 text-primary border-0" onClick={() => setIsLogin(false)}>
-          New User?
+          <input type="submit" className=" btn btn-secondary" value="Login" />
+          <button
+            className=" m-3 text-primary border-0"
+            onClick={() => dispatch(authActions.signupPage())}
+          >
+            New User?
+          </button>
+        </form>
+        <button  className="mb-3 text-primary border-0"
+          onClick={() => dispatch(authActions.showForgotPasswordModal())}>
+         Forgot Password?
         </button>
-        <button className=" m-3 text-primary border-0" onClick={()=>setShow(true)}>Forgot Password?</button>
-      </form>
+       </div>
     </div>
   );
 }

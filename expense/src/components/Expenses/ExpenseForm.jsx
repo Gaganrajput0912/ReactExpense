@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react'
+import React, {  useState } from 'react'
 import { Button, Modal } from 'react-bootstrap'
-import { expenseContext } from '../../context/ExpenseContext'
-const ExpenseForm = ({ setExpenseArr }) => {
-    const {postExpense} = useContext(expenseContext)
+import { useDispatch } from 'react-redux'
+import { postExpense } from './ExpenseRequests'
+const ExpenseForm = () => {
     const [show, setShow] = useState(false)
     const [data,setData] = useState({Amount:0 , Description : '' , Category : 'Food'})
 const handleClose = () => setShow(false);
@@ -14,10 +14,10 @@ const handleClose = () => setShow(false);
 
     }
 
-
+    const dispatch = useDispatch()
     const handleSubmit = (e) => {
         e.preventDefault()
-        postExpense(data)
+        postExpense(data, dispatch);
       handleClose()
 document.getElementById("expenseForm").reset()
 }

@@ -1,14 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, {  useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { expenseContext } from "../../context/ExpenseContext";
+import { useDispatch } from "react-redux";
+import { editExpense } from "./ExpenseRequests";
 
 const EditForm = ({ item }) => {
   const [show, setShow] = useState(false);
     const [data, setData] = useState(item);
-    const {editExpense} = useContext(expenseContext)
+    
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  const dispatch = useDispatch()
   const handleChange = (e) => {
     const { value, name } = e.target;
     setData({ ...data, [name]: value });
@@ -16,8 +17,7 @@ const EditForm = ({ item }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-console.log(data)
-      editExpense(data.id, data)
+    editExpense(data.id, data, dispatch)
       handleClose()
     document.getElementById("EditForm").reset();
   };
